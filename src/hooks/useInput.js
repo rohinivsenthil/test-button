@@ -1,21 +1,17 @@
 import {useState, useEffect} from 'react';
-import url from '../constants/url'
-import axios from 'axios'
+import axios from 'axios';
+import url from '../constants';
 
-export const useInput = () => {
-    const [value, setValue] = useState('');
-    
+const useInput = (defaultValue) => {
+    const [text, setText] = useState(defaultValue);
     useEffect(() => {
-        const asyncFunc = async() => {
-            const res = await axios.get(url.initialTextLink);
-            setValue(
-                res.data.initialText
-            )
-            }
-            asyncFunc();
-    }, []);
-    
-    return [value, setValue];
+        const someFunc = async() => {
+            const response = await axios.get(url);
+        setText(response.data.initialText)
+        }
+        someFunc();
+        
+    },[]);
+    return [text,setText];
 }
-
 export default useInput;
