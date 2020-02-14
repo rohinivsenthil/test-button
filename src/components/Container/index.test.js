@@ -6,13 +6,18 @@ import axios from 'axios';
 import url from '../../constants'
 
 describe('The container component',()=>{
+
     it('should be rendered correctly',async ()=>{
+        const mockAxios = jest.spyOn(axios, 'get');
+        mockAxios.mockResolvedValue({data:{initialText:'unicorn'}});
         const {asFragment}=render(<Container testId='test-cntner'/>)
         await waitForDomChange();
         expect(asFragment()).toMatchSnapshot();
     });
 
     it('should pass the input text entered to the button', async()=>{
+        const mockAxios = jest.spyOn(axios, 'get');
+        mockAxios.mockResolvedValue({data:{initialText:'unicorn'}});
         const {getByTestId}=render(<Container testId='test-cntner' testIdButton='test-btn' testIdTextBox='123'/>)
         await waitForDomChange();
         act(() => {
@@ -23,10 +28,11 @@ describe('The container component',()=>{
     })
 
     it('should display the content from axios.get in the button', async()=>{
-        const {getByTestId}=render(<Container testId='test-cntner' testIdButton='test-btn' testIdTextBox='123'/>)
         const mockAxios = jest.spyOn(axios, 'get');
         mockAxios.mockResolvedValue({data:{initialText:'unicorn'}});
-        expect(axios.get).toHaveBeenCalledWith(url);
+        const {getByTestId}=render(<Container testId='test-cntner' testIdButton='test-btn' testIdTextBox='123'/>)
+        await waitForDomChange();
+        expect(mockAxios).toHaveBeenCalledWith(url);
         await wait(() => {
             expect(getByTestId('test-btn')).toHaveTextContent('unicorn')
             expect(getByTestId('123').value).toBe('unicorn')
@@ -36,8 +42,8 @@ describe('The container component',()=>{
     it('Should display the content from the api', async() => {
         const mockAxios = jest.spyOn(axios, 'get');
         mockAxios.mockResolvedValue({data:{initialText:'unicorn'}});
-
         const {getByTestId}=render(<Container testId='test-cntner' testIdButton='test-btn' testIdTextBox='123'/>)
+        await waitForDomChange();
         expect(mockAxios).toHaveBeenCalledWith(url)
         await wait(() => expect(getByTestId('123').value).toBe('unicorn'));
         await wait(() => expect(getByTestId('test-btn')).toHaveTextContent('unicorn'));
