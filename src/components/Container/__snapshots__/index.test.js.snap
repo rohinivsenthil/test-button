@@ -8,11 +8,11 @@ exports[`The container component should be rendered correctly 1`] = `
     <div>
       <input
         type="text"
-        value=""
+        value="unicorn"
       />
     </div>
     <button>
-       clicked 0 times.
+      unicorn clicked 0 times.
     </button>
   </div>
 </DocumentFragment>
