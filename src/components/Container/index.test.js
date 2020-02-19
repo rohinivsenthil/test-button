@@ -15,7 +15,7 @@ describe('The container component',()=>{
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should pass the input text entered to the button', async()=>{
+    xit('should pass the input text entered to the button', async()=>{
         const mockAxios = jest.spyOn(axios, 'get');
         mockAxios.mockResolvedValue({data:{initialText:'unicorn'}});
         const {getByTestId}=render(<Container testId='test-cntner' testIdButton='test-btn' testIdTextBox='123'/>)
